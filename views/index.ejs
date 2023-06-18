@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>食物列表</title>
+  </head>
+  <body>
+    <h1>添加食物</h1>
+    <form action="/add" method="POST">
+      <input type="text" name="food" placeholder="輸入食物名稱" />
+      <select name="foodType">
+        <option value="meal">正餐</option>
+        <option value="snack">點心</option>
+      </select>
+      <button type="submit">新增</button>
+    </form>
+
+    <h1>随機食物</h1>
+    <% if (randomFood) { %>
+    <h3>選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）</h3>
+    <% } %> <% if (notification) { %>
+    <h3 id="notification"><%= notification %></h3>
+    <% } %>
+
+    <h1>操作</h1>
+    <a href="/foods">查看食物列表</a>
+    <a href="/random">隨機全部食物</a>
+    <a href="/random?type=meal">隨機正餐</a>
+    <a href="/random?type=snack">隨機點心</a>
+  </body>
+</html>
+<script>
+  // 在頁面載入完成後，等待 2 秒後隱藏通知
+  window.onload = function () {
+    var notification = document.getElementById("notification");
+    if (notification) {
+      setTimeout(function () {
+        notification.style.display = "none";
+      }, 2000); // 延遲 2 秒後隱藏通知，單位為毫秒
+    }
+  };
+</script>

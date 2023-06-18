@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>食物列表</title>
+  </head>
+  <body>
+    <h1>食物列表</h1>
+    <ul>
+      <% foods.forEach(function(food) { %>
+      <li>
+        <%= food.name %> - <%= food.type %>
+        <form
+          action="/delete/<%= food._id %>"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit">删除</button>
+        </form>
+      </li>
+      <% }) %>
+    </ul>
+
+    <h2>篩選食物</h2>
+    <form action="/foods" method="GET" style="display: inline">
+      <button type="submit">全部食物</button>
+    </form>
+    <form action="/foods" method="GET" style="display: inline">
+      <input type="hidden" name="type" value="meal" />
+      <button type="submit">正餐</button>
+    </form>
+    <form action="/foods" method="GET" style="display: inline">
+      <input type="hidden" name="type" value="snack" />
+      <button type="submit">點心</button>
+    </form>
+    <br />
+
+    <a href="/">返回首頁</a>
+  </body>
+</html>
