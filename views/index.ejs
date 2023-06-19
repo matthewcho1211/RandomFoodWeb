@@ -2,37 +2,45 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>食物列表</title>
+    <title>隨機食物網站</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>添加食物</h1>
-    <form action="/add" method="POST">
-      <input type="text" name="food" placeholder="輸入食物名稱" />
-      <select name="foodType">
-        <option value="meal">正餐</option>
-        <option value="snack">點心</option>
-      </select>
-      <button type="submit">新增</button>
-    </form>
+    <div class="add">
+      <h1>添加食物</h1>
+      <form action="/add" method="POST">
+        <input type="text" name="food" placeholder="輸入食物名稱" />
+        <select name="foodType">
+          <option value="meal">正餐</option>
+          <option value="snack">點心</option>
+        </select>
+        <button class="bt1" type="submit">新增</button>
+      </form>
+      <% if (notification) { %>
+      <h3 id="notification"><%= notification %></h3>
+      <% } %>
+    </div>
 
-    <% if (notification) { %>
-    <h3 id="notification"><%= notification %></h3>
-    <% } %>
+    <div class="random">
+      <h1>隨機食物</h1>
+      <% if (randomFood) { %>
+      <h3>選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）</h3>
+      <form action="https://www.google.com/search" method="GET" target="_blank">
+        <input type="hidden" name="q" value="<%= randomFood.name %>" />
+        <button class="btn2" type="submit">查詢食物</button>
+      </form>
+      <% } %>
+    </div>
 
-    <h1>隨機食物</h1>
-    <% if (randomFood) { %>
-    <h3>選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）</h3>
-    <form action="https://www.google.com/search" method="GET" target="_blank">
-      <input type="hidden" name="q" value="<%= randomFood.name %>" />
-      <button type="submit">查詢食物</button>
-    </form>
-    <% } %>
-
-    <h1>操作</h1>
-    <a href="/foods">查看食物列表</a>
-    <a href="/random">隨機全部食物</a>
-    <a href="/random?type=meal">隨機正餐</a>
-    <a href="/random?type=snack">隨機點心</a>
+    <div class="foot">
+      <h1>操作</h1>
+      <div>
+        <a href="/random">隨機全部食物</a>
+        <a href="/random?type=meal">隨機正餐</a>
+        <a href="/random?type=snack">隨機點心</a>
+        <a href="/foods">查看食物列表</a>
+      </div>
+    </div>
   </body>
 </html>
 <script>
