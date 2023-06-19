@@ -29,11 +29,11 @@ app.post("/add", (req, res) => {
   food
     .save()
     .then(() => {
-      res.render("index", { randomFood: null, notification: "添加成功" });
+      res.render("index", { randomFood: null, notification: "新增成功" });
     })
     .catch((error) => {
       console.error("Error saving food", error);
-      res.render("index", { randomFood: null, notification: "添加失败" });
+      res.render("index", { randomFood: null, notification: "新增失败" });
     });
 });
 

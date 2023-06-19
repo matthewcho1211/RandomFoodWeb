@@ -15,11 +15,17 @@
       <button type="submit">新增</button>
     </form>
 
-    <h1>随機食物</h1>
+    <% if (notification) { %>
+    <h3 id="notification"><%= notification %></h3>
+    <% } %>
+
+    <h1>隨機食物</h1>
     <% if (randomFood) { %>
     <h3>選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）</h3>
-    <% } %> <% if (notification) { %>
-    <h3 id="notification"><%= notification %></h3>
+    <form action="https://www.google.com/search" method="GET" target="_blank">
+      <input type="hidden" name="q" value="<%= randomFood.name %>" />
+      <button type="submit">查詢食物</button>
+    </form>
     <% } %>
 
     <h1>操作</h1>
@@ -32,7 +38,7 @@
 <script>
   // 在頁面載入完成後，等待 2 秒後隱藏通知
   window.onload = function () {
-    var notification = document.getElementById("notification");
+    let notification = document.getElementById("notification");
     if (notification) {
       setTimeout(function () {
         notification.style.display = "none";
