@@ -3,42 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <title>隨機食物網站</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <div class="add">
-      <h1>添加食物</h1>
-      <form action="/add" method="POST">
-        <input type="text" name="food" placeholder="輸入食物名稱" />
-        <select name="foodType">
-          <option value="meal">正餐</option>
-          <option value="snack">點心</option>
-        </select>
-        <button class="bt1" type="submit">新增</button>
-      </form>
-      <% if (notification) { %>
-      <h3 id="notification"><%= notification %></h3>
-      <% } %>
-    </div>
+    <div class="container mt-5">
+      <div class="add">
+        <h1 class="text-center">添加食物</h1>
+        <form action="/add" method="POST">
+          <div class="form-group">
+            <input
+              type="text"
+              name="food"
+              class="form-control"
+              placeholder="輸入食物名稱"
+            />
+          </div>
+          <div class="form-group">
+            <select name="foodType" class="form-control">
+              <option value="meal">正餐</option>
+              <option value="snack">點心</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary btn-lg" type="submit">新增</button>
+          </div>
+        </form>
+        <% if (notification) { %>
+        <h3 id="notification" class="text-center mt-3"><%= notification %></h3>
+        <% } %>
+      </div>
 
-    <div class="random">
-      <h1>隨機食物</h1>
-      <% if (randomFood) { %>
-      <h3>選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）</h3>
-      <form action="https://www.google.com/search" method="GET" target="_blank">
-        <input type="hidden" name="q" value="<%= randomFood.name %>" />
-        <button class="btn2" type="submit">查詢食物</button>
-      </form>
-      <% } %>
-    </div>
+      <div class="random mt-4">
+        <h1 class="text-center">隨機食物</h1>
+        <% if (randomFood) { %>
+        <h3 class="text-center">
+          選出的食物是： <%= randomFood.name %> （<%= randomFood.type %>）
+        </h3>
+        <form
+          action="https://www.google.com/search"
+          method="GET"
+          target="_blank"
+        >
+          <input type="hidden" name="q" value="<%= randomFood.name %>" />
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary btn-lg" type="submit">
+              查詢食物
+            </button>
+          </div>
+        </form>
+        <% } %>
+      </div>
 
-    <div class="foot">
-      <h1>操作</h1>
-      <div>
-        <a href="/random">隨機全部食物</a>
-        <a href="/random?type=meal">隨機正餐</a>
-        <a href="/random?type=snack">隨機點心</a>
-        <a href="/foods">查看食物列表</a>
+      <div class="foot mt-5">
+        <h1 class="text-center">操作</h1>
+        <div class="text-center">
+          <a href="/random" class="btn btn-primary btn-md">隨機全部食物</a>
+          <a href="/random?type=meal" class="btn btn-primary btn-md"
+            >隨機正餐</a
+          >
+          <a href="/random?type=snack" class="btn btn-primary btn-md"
+            >隨機點心</a
+          >
+          <a href="/foods" class="btn btn-primary btn-md">查看食物列表</a>
+        </div>
       </div>
     </div>
   </body>

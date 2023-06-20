@@ -3,44 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <title>食物列表</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+      .food-item {
+        margin-bottom: 20px;
+      }
+      .small-card {
+        width: 200px;
+      }
+    </style>
   </head>
   <body>
-    <div class="food">
-      <h1>食物列表</h1>
-      <ul>
+    <div class="container mt-3">
+      <h1 class="d-flex justify-content-center">食物列表</h1>
+      <div class="row">
         <% foods.forEach(function(food) { %>
-        <li>
-          <%= food.name %> - <%= food.type %>
-          <form
-            action="/delete/<%= food._id %>"
-            method="POST"
-            style="display: inline"
-          >
-            <button class="btn3" type="submit">刪除</button>
-          </form>
-        </li>
+        <div class="col-md-2 food-item">
+          <div class="card small-card">
+            <div class="card-body">
+              <h5 class="card-title"><%= food.name %></h5>
+              <p class="card-text"><%= food.type %></p>
+              <form action="/delete/<%= food._id %>" method="POST">
+                <button class="btn btn-danger" type="submit">刪除</button>
+              </form>
+            </div>
+          </div>
+        </div>
         <% }) %>
-      </ul>
+      </div>
+
+      <div class="text-center">
+        <h2>篩選食物</h2>
+
+        <form action="/foods" method="GET" style="display: inline">
+          <button class="btn btn-primary btn-md" type="submit">全部食物</button>
+        </form>
+        <form action="/foods" method="GET" style="display: inline">
+          <input type="hidden" name="type" value="meal" />
+          <button class="btn btn-primary btn-md" type="submit">正餐</button>
+        </form>
+        <form action="/foods" method="GET" style="display: inline">
+          <input type="hidden" name="type" value="snack" />
+          <button class="btn btn-primary btn-md" type="submit">點心</button>
+        </form>
+      </div>
+
+      <br />
+
+      <div class="d-flex justify-content-center"><a href="/">返回首頁</a></div>
     </div>
-
-    <h2>篩選食物</h2>
-    <div>
-      <form action="/foods" method="GET" style="display: inline">
-        <button class="btn2" type="submit">全部食物</button>
-      </form>
-      <form action="/foods" method="GET" style="display: inline">
-        <input type="hidden" name="type" value="meal" />
-        <button class="btn2" type="submit">正餐</button>
-      </form>
-      <form action="/foods" method="GET" style="display: inline">
-        <input type="hidden" name="type" value="snack" />
-        <button class="btn2" type="submit">點心</button>
-      </form>
-    </div>
-
-    <br />
-
-    <a href="/">返回首頁</a>
   </body>
 </html>
