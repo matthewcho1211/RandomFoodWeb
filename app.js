@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const Food = require("./models/food");
 
 const app = express();
-app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +18,7 @@ app.get("/", (req, res) => {
   res.render("index", { randomFood: null, notification: null });
 });
 
-app.post("/add", (req, res) => {
+app.post("/add", async (req, res) => {
   const foodName = req.body.food;
   const foodType = req.body.foodType;
 
@@ -28,18 +27,16 @@ app.post("/add", (req, res) => {
     type: foodType,
   });
 
-  food
-    .save()
-    .then(() => {
-      res.render("index", { randomFood: null, notification: "新增成功" });
-    })
-    .catch((error) => {
-      console.error("Error saving food", error);
-      res.render("index", { randomFood: null, notification: "新增失败" });
-    });
+  try {
+    await food.save();
+    res.render("index", { randomFood: null, notification: "新增成功" });
+  } catch (error) {
+    console.log(error);
+    res.render("index", { randomFood: null, notification: "新增失敗" });
+  }
 });
 
-app.get("/foods", (req, res) => {
+app.get("/foods", async (req, res) => {
   let query = {};
 
   const foodType = req.query.type;
@@ -47,30 +44,28 @@ app.get("/foods", (req, res) => {
     query = { type: foodType };
   }
 
-  Food.find(query)
-    .then((foods) => {
-      res.render("foods", { foods });
-    })
-    .catch((error) => {
-      console.error("Error fetching foods", error);
-      res.render("foods", { foods: [] });
-    });
+  try {
+    const foods = await Food.find(query);
+    res.render("foods", { foods });
+  } catch (error) {
+    console.log(error);
+    res.render("foods", { foods: [] });
+  }
 });
 
-app.post("/delete/:id", (req, res) => {
+app.post("/delete/:id", async (req, res) => {
   const foodId = req.params.id;
 
-  Food.findByIdAndRemove(foodId)
-    .then(() => {
-      res.redirect("/foods");
-    })
-    .catch((error) => {
-      console.error("Error deleting food", error);
-      res.redirect("/foods");
-    });
+  try {
+    await Food.findByIdAndRemove(foodId);
+    res.redirect("/foods");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/foods");
+  }
 });
 
-app.get("/random", (req, res) => {
+app.get("/random", async (req, res) => {
   const foodType = req.query.type;
 
   let query = {};
@@ -78,31 +73,25 @@ app.get("/random", (req, res) => {
     query = { type: foodType };
   }
 
-  Food.countDocuments(query)
-    .then((count) => {
-      if (count === 0) {
-        res.render("index", { randomFood: null, notification: null });
-        return;
-      }
+  try {
+    const count = await Food.countDocuments(query);
 
-      const randomIndex = Math.floor(Math.random() * count);
-
-      Food.findOne(query)
-        .skip(randomIndex)
-        .then((randomFood) => {
-          res.render("index", { randomFood, notification: null });
-        })
-        .catch((error) => {
-          console.error("Error fetching random food", error);
-          res.render("index", { randomFood: null, notification: null });
-        });
-    })
-    .catch((error) => {
-      console.error("Error counting foods", error);
+    if (count === 0) {
       res.render("index", { randomFood: null, notification: null });
-    });
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * count);
+
+    const randomFood = await Food.findOne(query).skip(randomIndex).exec();
+
+    res.render("index", { randomFood, notification: null });
+  } catch (error) {
+    console.log(error);
+    res.render("index", { randomFood: null, notification: null });
+  }
 });
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(4700, () => {
+  console.log("Server started on port 4753");
 });
