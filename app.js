@@ -65,6 +65,24 @@ app.post("/delete/:id", async (req, res) => {
   }
 });
 
+app.post("/edit/:id", async (req, res) => {
+  try {
+    const foodId = req.params.id;
+    const updatedFoodName = req.body.foodName;
+    const updatedFoodType = req.body.foodType;
+
+    await Food.findByIdAndUpdate(foodId, {
+      name: updatedFoodName,
+      type: updatedFoodType,
+    });
+
+    res.redirect("/foods");
+  } catch (error) {
+    console.error("Error updating food", error);
+    res.redirect("/foods");
+  }
+});
+
 app.get("/random", async (req, res) => {
   const foodType = req.query.type;
 

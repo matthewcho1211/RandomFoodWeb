@@ -30,9 +30,71 @@
             <div class="card-body">
               <h5 class="card-title"><%= food.name %></h5>
               <p class="card-text"><%= food.type %></p>
+              <div class="row">
+                <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#editModal<%= food._id %>"
+              >
+                編輯
+              </button>
               <form action="/delete/<%= food._id %>" method="POST">
                 <button class="btn btn-danger" type="submit">刪除</button>
               </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 編輯食物的 Modal -->
+        <div
+          class="modal fade"
+          id="editModal<%= food._id %>"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="editModalLabel<%= food._id %>"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel<%= food._id %>">
+                  編輯食物
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/edit/<%= food._id %>" method="POST">
+                  <div class="form-group">
+                    <label for="foodName">食物名稱</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="foodName"
+                      name="foodName"
+                      value="<%= food.name %>"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="foodType">食物類型</label>
+                    <select class="form-control" id="foodType" name="foodType" required>
+                      <option value="meal" <%= food.type === 'meal' ? 'selected' : '' %>>正餐</option>
+                      <option value="snack" <%= food.type === 'snack' ? 'selected' : '' %>>點心</option>
+                    </select>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">儲存</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
