@@ -85,7 +85,7 @@ app.put("/foods/:id", async (req, res) => {
   }
 });
 
-app.get("/random", async (req, res) => {
+app.get("/foods/random", async (req, res) => {
   const foodType = req.query.type;
 
   let query = {};
