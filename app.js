@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
 
 const Food = require("./models/food");
 
@@ -8,17 +9,14 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 mongoose.connect("mongodb://127.0.0.1:27017/exampleDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-app.get("/", (req, res) => {
-  res.render("index", { randomFood: null, notification: null });
-});
-
-app.post("/add", async (req, res) => {
+app.post("/foods", async (req, res) => {
   const foodName = req.body.food;
   const foodType = req.body.foodType;
 
@@ -53,7 +51,7 @@ app.get("/foods", async (req, res) => {
   }
 });
 
-app.post("/delete/:id", async (req, res) => {
+app.delete("/foods/:id", async (req, res) => {
   const foodId = req.params.id;
 
   try {
@@ -65,16 +63,20 @@ app.post("/delete/:id", async (req, res) => {
   }
 });
 
-app.post("/edit/:id", async (req, res) => {
+app.put("/foods/:id", async (req, res) => {
   try {
     const foodId = req.params.id;
     const updatedFoodName = req.body.foodName;
     const updatedFoodType = req.body.foodType;
 
-    await Food.findByIdAndUpdate(foodId, {
-      name: updatedFoodName,
-      type: updatedFoodType,
-    });
+    await Food.findByIdAndUpdate(
+      foodId,
+      {
+        name: updatedFoodName,
+        type: updatedFoodType,
+      },
+      { new: true }
+    );
 
     res.redirect("/foods");
   } catch (error) {
@@ -110,6 +112,10 @@ app.get("/random", async (req, res) => {
   }
 });
 
-app.listen(4700, () => {
-  console.log("Server started on port 4753");
+app.get("/", (req, res) => {
+  res.render("index", { randomFood: null, notification: null });
+});
+
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
 });
