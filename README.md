@@ -12,4 +12,4 @@
   * 後端框架 : Express.js
   * 後端技術 : EJS、Mongoose
   * 資料庫 : MongoDB
-* Demo影片：<a href="https://www.youtube.com/watch?v=wJC7EeIhK9o">https://www.youtube.com/watch?v=wJC7EeIhK9o</a>
+* Demo影片：<a href="https://www.youtube.com/watch?v=HHVz_7XYUpA">https://www.youtube.com/watch?v=HHVz_7XYUpA</a>
